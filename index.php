@@ -2,19 +2,25 @@
 
 declare(strict_types=1);
 
-//composer autoloader
 require 'vendor/autoload.php';
 
 use Island\Island;
 
+//CSV dir
+$csvDirectory = 'islands/';
 
-//Test topography date
-//!TODO: use actual csv file
-$topographyData = [9, 15, 25, 34, 16, 30, 40, 6, 24, 48];
+//list of CSV files to process:
+$csvFiles = glob($csvDirectory . 'island_*.csv');
 
-$island = new Island($topographyData);
+foreach ($csvFiles as $filePath) {
+    $island = new Island($filePath);
 
+    $cacheSurfaceArea = $island->calculateCacheSurfaceArea();
 
-$cacheSurfaceArea = $island->calculateCacheSurfaceArea();
+    //Extract name
+    $filename = basename($filePath);
+    preg_match('/island_(\d+)\.csv/', $filename, $matches);
+    $islandNumber = $matches[1];
 
-echo "The surface area of the cache is: $cacheSurfaceArea\n";
+    echo "Island $islandNumber: The surface area of the cache is: $cacheSurfaceArea\n";
+}

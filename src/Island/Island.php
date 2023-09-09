@@ -8,27 +8,34 @@ class Island
 {
     private array $topographyData;
 
-    public function __construct(array $topographyData)
+    public function __construct(string $filePath)
     {
-        // Implement me
-        $this->topographyData = $topographyData;
+        $this->topographyData = $this->parseCsvFile($filePath);
+    }
+
+    private function parseCsvFile(string $filePath): array
+    {
+        $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false || count($lines) < 2) {
+            throw new \RuntimeException('Invalid CSV file format');
+        }
+
+        return array_map('intval', explode(' ', $lines[1]));
     }
 
     public function calculateCacheSurfaceArea(): int
     {
         $surfaceArea = 0;
+        $n = count($this->topographyData);
 
-        //Iterate through topography data with for loop:
-        for ($i = 0; $i < count($this->topographyData); $i++) {
-            //Get current height and the maximum height to the right
+        for ($i = 0; $i < $n; $i++) {
             $currentHeight = $this->topographyData[$i];
             $maxHeightToRight = 0;
 
-            for ($j = $i + 1; $j < count($this->topographyData); $j++) {
+            for ($j = $i + 1; $j < $n; $j++) {
                 $maxHeightToRight = max($maxHeightToRight, $this->topographyData[$j]);
             }
 
-            // Calculate the surface area at this position
             $surfaceArea += max(0, min($currentHeight, $maxHeightToRight) - $currentHeight);
         }
 
