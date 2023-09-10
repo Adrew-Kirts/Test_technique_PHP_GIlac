@@ -19,15 +19,18 @@ class Island
 		if ($lines === false || count($lines) < 2) {
 			throw new \RuntimeException('Invalid CSV file format');
 		}
-	//Debug: 
-		//var_dump($lines);
 	
-		$topographyData = array_map('intval', explode(' ', trim($lines[1])));
+		$n = intval($lines[0]);
 	
-		//var_dump($topographyData);
+		$n = max(1, min($n, 100000));
+	
+		$topographyData = array_map(function ($height) {
+			return min(max(intval($height), 0), 100000);
+		}, explode(' ', trim($lines[1])));
 	
 		return $topographyData;
 	}
+	
 	
 
 	public function calculateCacheSurfaceArea(): int
