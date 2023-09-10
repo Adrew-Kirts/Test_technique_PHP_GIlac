@@ -8,7 +8,7 @@ use Island\Island;
 
 $csvDirectory = 'islands/';
 
-//list of CSV files to process:
+// List of CSV files to process:
 $csvFiles = glob($csvDirectory . 'island_*.csv');
 
 foreach ($csvFiles as $filePath) {
@@ -16,7 +16,7 @@ foreach ($csvFiles as $filePath) {
 
     $cacheSurfaceArea = $island->calculateCacheSurfaceArea();
 
-    //Extract name
+    // Extract name
     $filename = basename($filePath);
     preg_match('/island_(\d+)\.csv/', $filename, $matches);
     $islandNumber = $matches[1];
