@@ -6,7 +6,6 @@ require 'vendor/autoload.php';
 
 use Island\Island;
 
-//CSV dir
 $csvDirectory = 'islands/';
 
 //list of CSV files to process:

@@ -15,4 +15,3 @@ In project directory containing composer.json:
 '''
 composer install
 '''
-
